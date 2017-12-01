@@ -11,6 +11,10 @@
 *.cb
 *.cb2
 
+*.pdf
+!Thesis.pdf
+doc/library/
+
 ## Intermediate documents:
 *.dvi
 *-converted-to.*
