@@ -5,10 +5,7 @@
 \label{app:software}
 \section{Python}
 \label{appendix:py}
-Python is a multi-purpose language, which means that no specific coding paradigma is imposed on the user, but one can use scripting as well as object oriented design alike. This allows for a very flexible style of programming which was used in this project for writing little tools that help with the data preprocessing as well as more complex code for the learning pipeline and the analysis of the network. 
-Python is also widely used by the machine learning community which makes it easier to look up code examples and questions on forums like \href{https://stackoverflow.com/}{Stackoverflow}. 
-
-The version used is 3.6 and all used packages are managed via conda.
+Python is a multi-purpose language, which means that no specific coding paradigma is imposed on the user, but one can use scripting as well as object oriented design alike. This allows for a very flexible style of programming which was used in this project for writing little tools that help with the data preprocessing as well as more complex code for the learning pipeline and the analysis of the network. Python is also widely used by the machine learning community which makes it easier to look up code examples and questions on forums like \href{https://stackoverflow.com/}{Stackoverflow}. The specific version used in this thesis is 3.6 and all used packages are downloaded via pip or conda. The dependencies are listed in the file ``act-env.yml" and can be installed with it as well.
 
 \section{Oracle Grid Engine}
 \label{appendix:oge}
@@ -61,10 +58,18 @@ All jobs are only allowed for a specified maximal amount of time depending on th
 
 \section{Tensorflow}
 \label{appendix:tf}
-Tensorflow is a software library developed by Google Brain that aids the development of machine learning applications by expressing computations as a graph and taking care of the underlying optimization and execution. Through this approach it is applicable to many other tasks apart from neural networks. 
+Tensorflow is a software library developed by Google Brain that aids the development of machine learning applications by expressing computations as a graph and taking care of the underlying optimization and execution. The approach of the framework is applicable to many computational tasks apart from neural networks as long as they can be formalized in a graph, but many of the higher level functions in the framework deal with neural networks. Tensorflow is usable via API's for Python, C++, Haskell, Java, Go, and Rust. Third party packages are available for C\#, Julia, R, and Scala. Solving a problem with Tensorflow includes roughly two steps: first one needs to define a graph. A graph in Tensorflow is comprised of nodes, which are either variables (called Placeholders) or operations on those. The convolutional neural network in this thesis is defined like this: define placeholders for the lung patches that should be learned on, the respective labels and the phase of the learning (a boolean used for batchnormalization). Those are 
 
-Tensorflow is usable via API's for Python, C++, Haskell, Java, Go, and Rust. Third party packages are available for C\#, Julia, R, and Scala.
 
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.2]{tensorboard.png}
+\caption{The graph of the model that was generated for this thesis. Scoping of the different layers help a lot to encapsulate similar behavior. The Placeholders do not only flow through the network but are used to generate summaries and reports.}
+\label{fig:tb}
+\end{figure}
+
+
+The version used for this thesis was 1.3.0 and Tensorboard in version 0.1.5.
 How does tensorflow work. describe computational graph and layers package 
 
 
