@@ -7,7 +7,11 @@ This chapter presents the result of the training process. The final network perf
 \section{The trained Network}
 The used model is inspired by the network presented in \cite{huang2017lung} and performs with a sensitivity of around 81$\%$ on the validation set and a false positive rate of $0.192$ per sample. This is already a better result than reported by Xu et al.~\cite{xu1997development}, Armato et al.~\cite{armato1999computerized}, Lee et al.~\cite{lee2001automated}, Suzuki et al.~\cite{suzuki2003massive} and Teramoto et al.~\cite{teramoto2013fast}.  
 
-This is of course not the only metric that needs to be compared in order to evaluate the approach. The 
+This is of course not the only metric that needs to be compared in order to evaluate the approach. The way the samples have been produced in this thesis differ from the other papers
+
+what about fp rate?
+what about applicability?
+what about time?
 
 
 todo: explain why that might not be the most relevant perf number
@@ -35,7 +39,7 @@ How is that best understood? 2 Approaches: first mean activation of the filters 
 \begin{center}
 \includegraphics[scale=0.5]{nodule_activation_example.png}
 \end{center}
-\caption{The mean activation from 500 nodule patches of the validation set. Already in the first layer is the receptive field focusing on the center area, where the nodule resides.}
+\caption{The mean activation from 500 nodule patches of the validation set. Already in the first layer the receptive field is focusing on the center area, where the nodule resides.}
 \label{fig:mean_activation}
 \end{figure}
 
