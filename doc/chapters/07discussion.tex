@@ -2,31 +2,23 @@
 \begin{document}
 \chapter{Discussion}\label{chap:discussion}
 
-This thesis started out with two research questions: First: can a 3D CNN be trained to perform the task of nodule detection and second, how can it's learned features be extracted and used for understanding the solution? 
+This thesis started out with two research questions. First- Can a 3D CNN be trained to perform the task of nodule detection and second, how can it's learned features be extracted and used for understanding the solution? 
 
-To the first question: it was shown that it is possible to train a network with promising results upon which further optimization could be applied. The performance of the learned network was at XXX $\%$ which is surprising for it's simple structure. With more time and computational power it seems very possible to increase the performance further. Ways forward could include more samples from the database and a richer augmentation of the samples which allow for training even deeper networks. Other network parameters could easily be systematically varied and tested for effectiveness, allowing for further optimization.
+\section{A 3DCNN Classifier}
+Answering the first research question: it was shown that it is possible to train a network with promising results upon which further optimization could be applied. The performance of the learned network was $81\%$ which is surprising for it's simple structure. With more time and computational power it seems very possible to increase the performance further. 
 
-The code for this thesis is openly available on \hyperref[GitHub]{''https://github.com/AndreaSuckro/acts''}. 
+Ways forward include richer augmentation of the samples (rotating by different degrees, flipping the image in the z direction as well) or including the patches that have been labeled by the radiologists as ``no nodule" as a separate class for training. Other network parameters could be systematically varied and tested for effectiveness, pushing the network performance even further. The same can be done for the training setup: prolonging the time the network has for training, varying the batch size or using a different optimizer for example. One could also think about more radical changes to the infrastructure. What would happen for example if the dense layers are replaced by further convolutional layers, making this a fully-convolutional network.
 
-Future thought: tumor size estimation to determine growth over time.
+\section{Understanding the Network}
+Answering the second research question proved to be more complicated. The filter kernels could be  visualized, but it is hard to define a real measure of similarity to existing approaches and the extracted features did not encode any new or unknown properties of the nodules that could be easily translated into classical features.
 
-Was it really worth doing this task with NNs?
 
-\section{Items of future code optimization}
-\begin{description}
-\item[cluster parameters] are at the moment not completely adapted to the optimal need of the learning process and could be further improved.
-\item[input pipeline] the input pipeline is not using queues as suggested in the TensorFlow documentation, but just reads in all the lung ct data.
-\item[preprocessing] further steps in the preprocessing could improve the results, for example a true 3d rotation and different scales of the same patch could be used. The ratio of healthy and nodule patches is at the moment way to high ($50:50$). This could be adjusted to a more reasonable value although this may prolong the training phase.
-\item[Training time] due to the way the institute set up the grid, all users have a walltime which stops training after several hours. One could pick up the training after being shut down from the latest checkpoint.
-\end{description}
+Another interesting direction would be: ``How minimal is the network allowed to be in order to perform with a certain accuracy?"
 
-\section{Items of future investigation}
-\begin{description}
-\item[Fully convolutional network] to eliminate the influence on the performance of the dense layers and keep the location information until the end.
-\item[Optimizers] it would have been nice to check for the influence of different optimizers for this problem.
-\item[Minimal Architecture] how can the number of layers and/or neurons be reduced. What is the optimal distribution for the filter sizes to be used.
-\item[Metrics of one patient] For one patient it would be interesting to see how the network fairs when one cube after the other is selected and fed in to the network. How does the FP rate look for example?
-\end{description}
+
+\section{Outlook}
+The code for this thesis is completely openly available on \hyperref[GitHub]{''https://github.com/AndreaSuckro/acts''}. It has the necessary documentation available to reproduce the results of this thesis and rich documentation on the code. This allows for other interested researchers to further improve on the results and use the code or part of it in an own application. The network could be for example embedded into a complete application, that would take as an input a so far unknown complete CT scan and slide the network over the whole volume, marking in the process the regions that do potentially contain a nodule. An expert radiologist could use the results of the software to guide their own examination of the patient and check whether annotated nodules represent a real thread or are false alarms.
+
 
 % the end :)
 \end{document}
