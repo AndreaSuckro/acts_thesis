@@ -5,10 +5,7 @@
 \label{app:software}
 \section{Python}
 \label{appendix:py}
-Python is a multi-purpose language, which means that no specific coding paradigma is imposed on the user, but one can use scripting as well as object oriented design alike. This allows for a very flexible style of programming which was used in this project for writing little tools that help with the data preprocessing as well as more complex code for the learning pipeline and the analysis of the network. 
-Python is also widely used by the machine learning community which makes it easier to look up code examples and questions on forums like \href{https://stackoverflow.com/}{Stackoverflow}. 
-
-The version used is 3.6 and all used packages are managed via conda.
+Python is a multi-purpose language, which means that no specific coding paradigma is imposed on the user, but one can use scripting as well as object oriented design alike. This allows for a very flexible style of programming which was used in this project for writing little tools that help with the data preprocessing as well as more complex code for the learning pipeline and the analysis of the network. Python is also widely used by the machine learning community which makes it easier to look up code examples and questions on forums like \href{https://stackoverflow.com/}{Stackoverflow}. The specific version used in this thesis is 3.6 and all used packages are downloaded via pip or conda. The dependencies are listed in the file ``act-env.yml" and can be installed with it as well.
 
 \section{Oracle Grid Engine}
 \label{appendix:oge}
@@ -61,11 +58,14 @@ All jobs are only allowed for a specified maximal amount of time depending on th
 
 \section{Tensorflow}
 \label{appendix:tf}
-Tensorflow is a software library developed by Google Brain that aids the development of machine learning applications by expressing computations as a graph and taking care of the underlying optimization and execution. Through this approach it is applicable to many other tasks apart from neural networks. 
+Tensorflow is a software library developed by Google Brain that aids the development of machine learning applications by expressing computations as a graph and taking care of the underlying optimization and execution. The version used in this thesis was 1.3.0. The approach of the framework is applicable to many computational tasks apart from neural networks as long as they can be formalized in a graph, but many of the higher level functions in the framework deal with neural networks. Tensorflow is usable via API's for Python, C++, Haskell, Java, Go, and Rust. Third party packages are available for C\#, Julia, R, and Scala. Solving a problem with Tensorflow includes roughly two steps: first one needs to define a graph. A graph in Tensorflow is comprised of nodes, which are either variables (called Placeholders) or operations on those. The convolutional neural network in this thesis is defined like this: placeholders have been created for the lung patches that should be learned on, their respective labels and the phase of the learning (a boolean used for batchnormalization). Those are fed into basic transformation functions that handle the randomized flipping and rotating. The output of this function is fed into some summaries and further piped through the network. The covolutional layers have been scoped and encapsulated to own functions. The result of the dense layers is used to calculate the error that is used for the backpropagation learning in combination with the gradients. The complete structure can be seen in Figure~\ref{fig:tb}. The completed graph can now be executed in a Tensorflow session. In the session the placeholders are filled with data and a loop is used train the network for a specified number of epochs. Tensorflow only calculates the graph up to the point necessary for the queried parameter. So one can easily just ask for the prediction and skip the weight adaptation step as necessary for the analysis.
 
-Tensorflow is usable via API's for Python, C++, Haskell, Java, Go, and Rust. Third party packages are available for C\#, Julia, R, and Scala.
-
-How does tensorflow work. describe computational graph and layers package 
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.25]{tensorboard.png}
+\caption{The graph of the model that was generated for this thesis. Scoping of the different layers help a lot to encapsulate similar behavior. The Placeholders do not only flow through the network but are used to generate summaries and reports.}
+\label{fig:tb}
+\end{figure}
 
 
 
@@ -76,12 +76,14 @@ How does tensorflow work. describe computational graph and layers package
 The database as it is available now is the result of a long process that began in April 2000. The National Cancer Institute (NCI) - the U.S. federal government's principal agency for cancer research and training submitted RFAs to create guidelines of how such a combined reference database could look like. The Lung Image Database Consortium (LIDC) was formed by the Weill Cornell Medical College, University of California, Los Angeles, University of Chicago, University of Iowa and University of Michigan in 2001. There task was to develop a web-accessible resource for CT scans with attached meta information (like the slice thickness, tube current and other technical specifications as well as patient information) and nodule information based on expert knowledge. The initiative was further advanced in 2004 by the Foundation for the National Institutes of Health (FNIH) which founded the Image Database Resource Initiative (IDRI). They brought two additional medical centers (MD Anderson Cancer Center and Memorial Sloan-Kettering Cancer Center) and eight imaging companies (AGFA Healthcare, Carestream Health, Inc., Fuji Photo Film Co., GE Healthcare, iCAD, Inc., Philips Healthcare, Riverain Medical, and Siemens Medical Solutions) to the initiative. The new members contributed significantly to the whole database and since the process of data aquisition and annotation was streamlined to the previous recorded data the whole set is referred to as the LIDC-IDRI Database. It's aim is to further develop, improve and evaluate automated methods for lung cancer detection and diagnosis and it is comparable to other public datasets in the medical data community like the Digital Database for Screening Mammography (DDSM) which contains roughly 3000 mammograms - a pioneer in the field of public medical imaging datasets.
 
 \section{CT Scanner Technology}
-CT scanners 
+CT scanners cover a wide range of computed tomography devices, like positron emission tomography (PET) and single-photon emission computed tomography (SPECT), but most commonly refer to tube X-ray scanners. Those scanners work roughly like this: the object of interest (the patient) is placed in the center of the tube. A X-ray emitter rotates around the object and gives off radiation that pierces through the object and is reflected depending on the density of the materials the object is composed of. Those differences in X-ray absorption make it possible to separate bones, nodules and blood vessels later on in the analysis. The recorded 2D images are combined by a software to a 3D representation, which makes it often necessary that the patients hold very still, even holding their breath during a scanning session. 
 
-How does a CT Scanner work?
-
-Tube with rays absorbtion making a 
-
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.25]{ct_scanner.png}
+\caption{This sketch illustrates the fundamental operation of a CT scanner. An emitter is rotating together with the sensor around the patient's body. The so recorded 2D images are used to reconstruct a 3D representation of the inner body.}
+\label{fig:tb}
+\end{figure}
 
 
 \section{CT Specifications}

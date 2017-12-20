@@ -1,0 +1,24 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\chapter{Discussion}\label{chap:discussion}
+
+This thesis started out with two research questions. First- Can a 3D CNN be trained to perform the task of nodule detection and second, how can it's learned features be extracted and used for understanding the solution? 
+
+\section{A 3DCNN Classifier}
+Answering the first research question: it was shown that it is possible to train a network with promising results upon which further optimization could be applied. The performance of the learned network was $81\%$ which is surprising for it's simple structure. With more time and computational power it seems very possible to increase the performance further. 
+
+Ways forward include richer augmentation of the samples (rotating by different degrees, flipping the image in the z direction as well) or including the patches that have been labeled by the radiologists as ``no nodule" as a separate class for training. Other network parameters could be systematically varied and tested for effectiveness, pushing the network performance even further. The same can be done for the training setup: prolonging the time the network has for training, varying the batch size or using a different optimizer for example. One could also think about more radical changes to the infrastructure. What would happen for example if the dense layers are replaced by further convolutional layers, making this a fully-convolutional network.
+
+\section{Understanding the Network}
+Answering the second research question proved to be more complicated. The filter kernels could be  visualized, but it is hard to define a real measure of similarity to existing approaches and the extracted features did not encode any new or unknown properties of the nodules that could be easily translated into classical features.
+
+
+Another interesting direction would be: ``How minimal is the network allowed to be in order to perform with a certain accuracy?"
+
+
+\section{Outlook}
+The code for this thesis is completely openly available on \hyperref[GitHub]{''https://github.com/AndreaSuckro/acts''}. It has the necessary documentation available to reproduce the results of this thesis and rich documentation on the code. This allows for other interested researchers to further improve on the results and use the code or part of it in an own application. The network could be for example embedded into a complete application, that would take as an input a so far unknown complete CT scan and slide the network over the whole volume, marking in the process the regions that do potentially contain a nodule. An expert radiologist could use the results of the software to guide their own examination of the patient and check whether annotated nodules represent a real thread or are false alarms.
+
+
+% the end :)
+\end{document}
