@@ -37,6 +37,12 @@
 \usepackage{appendix}
 \usepackage{xr}
 
+\makeatletter
+\let\c@language\relax
+\makeatother
+\usepackage[backend=biber,style=alphabetic]{biblatex}
+\addbibresource{thesis_bibliography.bib}
+
 % to load glossaries use this
 %\usepackage[acronym, nonumberlist, nomain]{glossaries}
 %\makeglossaries
@@ -80,8 +86,7 @@
 \listofalgorithms
 %\printglossary[title={List of Acronyms}]
 \nocite{*}
-\bibliography{thesis_bibliography}
-
+\printbibliography
 
 \declaration
 
