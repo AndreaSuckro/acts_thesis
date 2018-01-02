@@ -2,19 +2,20 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 \chapter{Results}\label{chap:results}
-This chapter presents the result of the training process. The final network performances are evaluated and compared to other papers. The network's extracted features are further analyzed and a way forward is sketched.
+This chapter presents the result of the training process. The final network performance is evaluated and compared to other papers. The network's extracted features are further analyzed and a way forward is sketched.
 
 \section{The trained Network}
-The model performs with a sensitivity of $81\%$ on the validation set and a false positive rate of $0.192$ per sample. This is already a better result than reported by Xu et al.~\cite{xu1997development}, Armato et al.~\cite{armato1999computerized}, Lee et al.~\cite{lee2001automated}, Suzuki et al.~\cite{suzuki2003massive} and Teramoto et al.~\cite{teramoto2013fast}.  
-
-This is of course not the only metric that needs to be compared in order to evaluate the approach. The way the samples have been produced in this thesis differ from the other papers
-
-what about fp rate?
-what about applicability?
-what about time?
+The model performs with a sensitivity of $81\%$ on the test set. This is already a better result than reported by Xu et al.~\cite{xu1997development}, Armato et al.~\cite{armato1999computerized}, Lee et al.~\cite{lee2001automated}, Suzuki et al.~\cite{suzuki2003massive} and Teramoto et al.~\cite{teramoto2013fast}. But there are also papers that report higher values, like Cascio et al.~\cite{cascio2012automatic} with a sensitivity of $97\%$.
 
 
-todo: explain why that might not be the most relevant perf number
+False positive rate in the medical context is crucial since the patients suffer under extreme psychological stress if they are to believe that their cancer screening reveals that they are affected by this severe disease. A false positive error can also lead to increased costs connected to additional screening and testing procedures as well as additional health related risks for the patients. The false positive rate of the trained model is $0.19$ per sample, which means that roughly every 5th patch is classified wrongly as being a nodule when it is not. Comparing that to the other approaches is a bit more complex since the reference frame changes. Armato~\cite{armato1999computerized} reports for example a false positive rate of 3 per slice. Given that the used slices in this thesis have a x,y resolution of $512 \times 512$ and the filter kernel is $50 \times 50 \times 5$, this would result in (depending on how the stride is chosen) $100$ patches per $5$ slices. Assuming that the stride would be chosen in a non-overlapping way this would mean a fp rate of $4$ per slice. This number would rise if the stride would be chosen to jump only one pixel at a time in each direction.  
+
+Pinsky et al study -
+
+
+Other metrics besides the accuracy and the false positive rate exist and need to be compared in order to evaluate the approach. For example the time it takes for this approach to come up with an result for one patient.
+
+
 
 
 \begin{figure}
