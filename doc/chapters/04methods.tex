@@ -41,7 +41,7 @@ The layers contain also a batch normalization step as described in \cite{ioffe20
 
 
 \subsection{Dense Layers}
-The activation from the last convolutional layer is flattened into a $(1 \times n)$ vector and fed to the neurons of the fully connected layer. A neuron in this layer takes the weighted sum of the input and applies it's activation function to it. In this network neurons with a rectified linear activation function are used, whose output is defined for an input $x$ and a number of weighted connections $w$ as:
+The activation from the last convolutional layer is flattened into a $(1 \times n)$ vector and fed to the neurons of the fully connected layer. A neuron in this layer takes the weighted sum of the input and applies its activation function to it. In this network neurons with a rectified linear activation function are used, whose output is defined for an input $x$ and a number of weighted connections $w$ as:
 
 \begin{equation}
 \label{eq:dense}
