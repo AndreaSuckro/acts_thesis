@@ -3,12 +3,12 @@
 
 \begin{document}
 \chapter{Results}\label{chap:results}
-This chapter presents the result of the training process. The final network performance is evaluated and compared to other papers. The network's extracted features are further analyzed and a way forward is sketched.
+This chapter presents the result of the training process. The final network performance is evaluated and the network's extracted features are further analyzed.
 
 \section{Training Results}
-The model performs after training (see Figure~\ref{fig:validation}) with a sensitivity of $83.39\%$ on the test set. This is already a better result than reported by Xu et al.~\cite{xu1997development}, Armato et al.~\cite{armato1999computerized}, Lee et al.~\cite{lee2001automated}, Suzuki et al.~\cite{suzuki2003massive} and Teramoto et al.~\cite{teramoto2013fast}. But there are also papers that report higher values, like Cascio et al.~\cite{cascio2012automatic} with a sensitivity of $97\%$. It still shows that it is possible to achieve promising results with a pure network architecture.
+The model performs after training (see Figure~\ref{fig:validation}) with a sensitivity of $83.39\%$ on the test set.
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.5]{validation_process.png}
 \end{center}
@@ -16,8 +16,7 @@ The model performs after training (see Figure~\ref{fig:validation}) with a sensi
 \label{fig:validation}
 \end{figure}
 
-There are other metrics to be accounted for though. The false positive rate in the medical context is crucial since the patients suffer under extreme psychological stress if they are to believe that their cancer screening reveals that they are affected by this severe disease. A false positive error can also lead to increased costs connected to additional screening and testing procedures as well as additional health related risks for the patients. The false positive rate of the trained model is $0.12$ per sample, which means that roughly every 8th patch is classified wrongly as being a nodule when it is not. Comparing that to the other approaches is a bit more complex since the reference frame changes. Armato~\cite{armato1999computerized} reports for example a false positive rate of 3 per slice. Given that the used slices in this thesis have a x,y resolution of $512 \times 512$ and the filter kernel is $50 \times 50 \times 5$, this would result in (depending on how the stride is chosen) $100$ patches per $5$ slices. Assuming that the stride would be chosen in a non-overlapping way this would mean a false positive rate of $2.5$ per slice. This number would rise if the stride would be chosen to jump only one pixel at a time in each direction.  
-Considering the practicability of the approach one would also need to measure the time it takes for the algorithm to analyze a complete CT scan.
+There are other metrics to be accounted for though. The false positive rate in the medical context is crucial since the patients suffer under extreme psychological stress if they are to believe that their cancer screening reveals that they are affected by this severe disease. A false positive error can also lead to increased costs connected to additional screening and testing procedures as well as additional health related risks for the patients. The false positive rate of the trained model is $0.12$ per sample, which means that roughly every eighth patch is classified wrongly as being a nodule when it is not. Considering the practicability of the approach one would also need to measure the time it takes for the algorithm to analyze a complete CT scan.
 
 
 \section{Analyzing the Network}
@@ -29,7 +28,7 @@ Many decisions concerning the architecture have been made that are not cogent. T
 
 \subsubsection{Activation Function}
 
-Figure~\ref{fig:other_act} shows the result of a test run with elu activation function~\ref{eq:elu}, which seemed not to yield very different results.
+Figure~\ref{fig:other_act} shows the result of a test run with elu (exponential linear unit) activation function~\ref{eq:elu}, which seemed not to yield very different results.
 
 \begin{equation} \label{eq:elu}
 f(x)= \begin{cases}
@@ -42,7 +41,7 @@ f(x)= \begin{cases}
 \begin{center}
 \includegraphics[scale=0.45]{elu_activation.png}
 \end{center}
-\caption{Another activation function in the dense layers (elu) shows similar results.}
+\caption{Using another activation function in the dense layers (elu) shows similar results.}
 \label{fig:other_act}
 \end{figure}
 
