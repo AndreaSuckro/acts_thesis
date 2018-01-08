@@ -2,10 +2,10 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 \chapter{Methods}\label{chap:methods}
-The following sections highlight the used methods and give a rough overview about the used tools. First, the used environment of software tools is described. Then the theoretical concept of a Convolutional Neural Network is explained. A more extensive explanation to the different software packages and computational resources can be found in the appendix~\ref{app:software}.
+The following sections highlight the used methods and give a rough overview of the used tools. First, the used environment of software tools is described. Then the theoretical concept of a Convolutional Neural Network is explained. A more extensive explanation of the different software packages and computational resources can be found in Appendix~\ref{app:software}.
 
 \section{Software Packages}
-Writing a program for solving the task of nodule detection with neural networks makes the use of certain frameworks necessary. Using Python as a versatile programming language allowed for writing code for all aspects of the project: from data preprocessing and training the network to analyzing the results. The language narrows down the number of frameworks available for training neural networks. For this thesis Tensorflow (Appendix~\ref{appendix:tf}) was chosen since it is at the moment the most active framework (concerning the metric of active implementation Figure~\ref{fig:frameworks}). Other frameworks like Cafe, Theano and Keras would have been valid choices as well. The Sun Grid Engine of the institute of Cognitive Science is used for automated execution on several machines (see Appendix~\ref{appendix:oge} for details) and was used for training the model.
+Writing a program for solving the task of nodule detection with neural networks makes the use of certain frameworks necessary. Using Python as a versatile programming language allowed for writing code for all aspects of the project: from data preprocessing and training the network to analyzing the results. The language narrows down the number of frameworks available for training neural networks. For this thesis, Tensorflow (Appendix~\ref{appendix:tf}) was chosen since it is at the moment the most active framework (concerning the metric of active implementation Figure~\ref{fig:frameworks}). Other frameworks like Cafe, Theano, and Keras would have been valid choices as well. The Sun Grid Engine of the Institute of Cognitive Science is used for automated execution on several machines (see Appendix~\ref{appendix:oge} for details) and was used for training the model.
 
 \begin{figure}
 \begin{center}
@@ -17,17 +17,17 @@ Writing a program for solving the task of nodule detection with neural networks 
 
 
 \section{Convolutional Neural Network}
-In this thesis a 3D Convolutional Neural Network (CNN) is used to classify the CT slices. The main motivation to use a 3D CNN in the case of nodule detection are the morphological features of the nodules that could not be fully utilized by a convolution that is only applied to 2D sections of the nodule. A CNN is similar to other artificial neural networks (ANNs) in the sense that it only uses forward connections, has an input and output layer and an arbitrary number of hidden layers in between. The hidden layers in a convolutional network are either convolutional or pooling layers which are in the end followed by one or more dense layers that perform the classification. Each of those layers is described in more detail in the following sections.
+In this thesis, a 3D Convolutional Neural Network (CNN) is used to classify the CT slices. The main motivation to use a 3D CNN in the case of nodule detection are the morphological features of the nodules that could not be fully utilized by a convolution that is only applied to 2D sections of the nodule. A CNN is similar to other artificial neural networks (ANNs) in the sense that it only uses forward connections, has an input and output layer and an arbitrary number of hidden layers in between. The hidden layers in a convolutional network are either convolutional or pooling layers which are in the end followed by one or more dense layers that perform the classification. Each of those layers is described in more detail in the following sections.
 
 \subsection{Convolutional Layer}\label{ss:convlayer}
-A convolutional layer consists of $1..n$ kernels that are represented through shared weights, which are compared to classic convolution in computer vision not \emph{sliding} across the input but are duplicated across the image in a defined distance called stride. A stride of $2$ would for example mean that the kernel is convolved with every second pixel of the image. The convolution is applied in 3D which means that the filter kernels are also 3 dimensional and the stride is as well defined in all three directions of the input image $(x,y,z)$. A pixel in the output volume $y$ can be derived from an image $I$ with a 3D kernel $h$ of size $(2m+1,2n+1,2p+1)$ as described in equation~\eqref{eq:conv3d}.
+A convolutional layer consists of $1..n$ kernels that are represented through shared weights, which are compared to classic convolution in computer vision not \emph{sliding} across the input but are duplicated across the image in a defined distance called stride. A stride of $2$ would, for example, mean that the kernel is convolved with every second pixel of the image. The convolution is applied in 3D which means that the filter kernels are also 3 dimensional and the stride is as well defined in all three directions of the input image $(x,y,z)$. A pixel in the output volume $y$ can be derived from an image $I$ with a 3D kernel $h$ of size $(2m+1,2n+1,2p+1)$ as described in equation~\eqref{eq:conv3d}.
 
 \begin{equation}
 y(x',y',z')=\sum_{i = -m}^{m}\sum_{j = -n}^{n}\sum_{k=-o}^{o} h(i+m,j+n,k+p) \cdot I(x+i,y+j,z+k) 
 \label{eq:conv3d}
 \end{equation}
  
-As the layers of convolution stack the extracted features from the first layer are combined to more complex shapes.
+As the layers of convolution stack, the extracted features from the first layer are combined into more complex shapes.
 
 \begin{figure}
 \begin{center}
@@ -37,7 +37,7 @@ As the layers of convolution stack the extracted features from the first layer a
 \label{fig:conv_layer}
 \end{figure}
 
-The layers contain also a batch normalization step as described in \cite{ioffe2015batch} that was implemented in the Tensorflow layers class. Batch normalization is scaling the activation of the layer to become normally distributed in each dimension of the features, but has additional parameters that can be learned to shift and scale these values again. This should bring several advantages like: reducing the dependence of the initialization method and allowing for higher learning rates. The batch normalization is followed by a max pooling layer which is applying a max filter to the normalized output. This adds small invariance to rotation and reduces the number of parameters in the network.
+The layers contain also a batch normalization step as described in \cite{ioffe2015batch} that was implemented in the Tensorflow layers class. Batch normalization is scaling the activation of the layer to become normally distributed in each dimension of the features but has additional parameters that can be learned to shift and scale these values again. This should bring several advantages like reducing the dependence of the initialization method and allowing for higher learning rates. The batch normalization is followed by a max pooling layer which is applying a max filter to the normalized output. This adds small invariance to rotation and reduces the number of parameters in the network.
 
 
 \subsection{Dense Layers}
@@ -48,7 +48,7 @@ The activation of the last convolutional layer is flattened into a $(1 \times n)
 y=max\left(\sum_w w \cdot x,0\right)
 \end{equation}
 
-This function is one of the standard activation functions in deeper architectures that avoid the vanishing gradient problem. This problem occurs when in the back propagation step the adaption of the weights is dependent on the repeated derivative of the activation function. For networks with several layers this leads to weight stagnation in the layers close to the input.
+This function is one of the standard activation functions in deeper architectures that avoid the vanishing gradient problem. This problem occurs when in the back propagation step the adaption of the weights is dependent on the repeated derivative of the activation function. For networks with several layers, this leads to weight stagnation in the layers close to the input.
 
 
 \end{document}

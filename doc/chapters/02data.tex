@@ -10,7 +10,7 @@ The dataset contains a folder for each patient. These folders contain a full che
 \subsection{Scan Data Structure}
 DICOM is a file format for storing medical images together with case relevant meta information. It is not only used for CT scans but also for radiography, ultrasonography and MRI data. It was initially introduced by the American College of Radiology (ACR) and National Electrical Manufacturers Association (NEMA) under the name ACR/NEMA 300 in 1985, but further redefined and finally in the third version released under the name DICOM in 1993 (see Pianykh~\cite{pianykh2008} for more information).
 
-The cases that scans are provided for in the dataset fulfill certain criteria. The CT scans are exclusive of the lung and do not contain other body parts or organs. The reconstruction interval and collimation are kept at $<3$mm. This means that there are differences in the resolution of the scan data (naturally through the different equipment used during recording), but that it is limited with an upper bound. Still one can find patients with $124-529$ recorded images in the data. The scan data may also include noise or other disruptive factors like metal (e.g. heart pacers) as well as other pathological features as long as those do not interfere with the visibility of the nodules in a drastic sense. The included cases have between $0$ and $6$ nodules with the longest diameter of between $3-30$ mm. Typical slices from the data can be seen in Figure~\ref{fig:slices}.
+The cases that scans are provided for in the dataset fulfill certain criteria. The CT scans are exclusive of the lung and do not contain other body parts or organs. The reconstruction interval and collimation are kept at $<3$ mm. This means that there are differences in the resolution of the scan data (naturally through the different equipment used during recording), but that it is limited with an upper bound. Still one can find patients with $124-529$ recorded images in the data. The scan data may also include noise or other disruptive factors like metal (e.g. heart pacers) as well as other pathological features as long as those do not interfere with the visibility of the nodules in a drastic sense. The included cases have between $0$ and $6$ nodules with the longest diameter of between $3-30$ mm. Typical slices from the data can be seen in Figure~\ref{fig:slices}.
 
 \begin{figure}[!tbp]
 \centering
@@ -54,7 +54,7 @@ Two different types of nodules are encoded in the data: nodules with a diameter 
          <yCoord>393</yCoord>
       </edgeMap>
 \end{lstlisting}
-\caption{A shortened example XML annotation for a nodule with diameter $>=$ 3mm.}
+\caption{A shortened example XML annotation for a nodule with diameter $>=3$ mm.}
 \label{fig:bigNod}
 \end{figure}
 
@@ -73,7 +73,7 @@ Nodules with a smaller diameter have less information stored with them. They onl
 	</edgeMap>
 	</roi>
 \end{lstlisting}
-\caption{Nodules with a diameter of $<3$mm have only the center of mass stored.}
+\caption{Nodules with a diameter of $<3$ mm have only the center of mass stored.}
 \label{fig:smallNod}
 \end{figure}
 
@@ -81,7 +81,7 @@ Nodules with a smaller diameter have less information stored with them. They onl
 The data is available in the form of sub-folders for each patient that contain the CT scan results in DICOM file format and the annotation data as XML files. The following sections describe the read in and slicing of the data.
 
 \subsection{Reading in the data}
-The whole dataset was randomly distributed into 3 sets with a $60:20:20$ split ratio: train, validation and test. The training dataset is used during the learning process of the neural network. The validation dataset is used to measure the performance of the network while it is trained on the training dataset. See Figure~\ref{fig:ttdist} for a distribution of values for the two classes.
+The whole dataset was randomly distributed into 3 sets with a $60:20:20$ split ratio: train, validation, and test. The training dataset is used during the learning process of the neural network. The validation dataset is used to measure the performance of the network while it is trained on the training dataset. See Figure~\ref{fig:ttdist} for a distribution of values for the two classes.
  
 \begin{figure}
 \includegraphics[width=\textwidth]{distribution_class.png}
@@ -89,12 +89,12 @@ The whole dataset was randomly distributed into 3 sets with a $60:20:20$ split r
 \label{fig:ttdist}
 \end{figure}
 
-Each of the folders contains a list of patients containing one or more sub-folders with CT scans. Some of the extra folders for a patient contain only a few scans and not a complete CT. Those folders were ignored. With the use of the Python package dicom~\cite{mason2011t} the CT scans are converted to a 3-dimensional array. The annotation XML files are evaluated to find the location of the nodules. In the case of nodules with a diameter of $<3mm$ the center of mass value is used, for the bigger nodules that have information of the whole edge map, the mean over all dimensions is used as an approximation for the center of mass of those nodules. 
+Each of the folders contains a list of patients containing one or more sub-folders with CT scans. Some of the extra folders for a patient contain only a few scans and not a complete CT. Those folders were ignored. With the use of the Python package dicom~\cite{mason2011t} the CT scans are converted to a 3-dimensional array. The annotation XML files are evaluated to find the location of the nodules. In the case of nodules with a diameter of $<3$ mm the center of mass value is used, for the bigger nodules that have information of the whole edge map, the mean over all dimensions is used as an approximation for the center of mass of those nodules. 
 
-Of the $1018$ data samples $147$ patient files contained only nodule like structures or had corrupted data (the XML file had a corrupted structure or wrong formatting that prevented the algorithm from extracting the nodule coordinates, e.g. one file had a slice thickness of $0$). Those files have been excluded from the learning process.
+Of the $1018$ data samples $147$ patient files contained just nodule-like structures or had corrupted data (the XML file had a corrupted structure or wrong formatting that prevented the algorithm from extracting the nodule coordinates, e.g. one file had a slice thickness of $0$). Those files have been excluded from the learning process.
 
 \subsection{Slicing the patches}
-The information from the annotations is used to generate the patches from the complete scan. A fixed number of sections is generated from the data per patient. The patches for the healthy data are cut randomly from the tissue that contains no nodules while the patches with the nodule information are randomly picked around the nodule's center. Determining the center of a nodule is easy in the cases of the nodules with $<3 mm$ diameter, since that information is already contained in the XML file. For the bigger nodules the mean of the contour pixels is used as an approximation to the real center of mass. The resulting shape of the patches is $(50,50,5)$. It makes sense to take less values in the z-dimension since the resolution of the CT scans is lower in that direction (more information about the scanners can be found in the Appendix~\ref{appendix:scanner}).
+The information from the annotations is used to generate the patches from the complete scan. A fixed number of sections is generated from the data per patient. The patches for the healthy data are cut randomly from the tissue that contains no nodules while the patches with the nodule information are randomly picked around the nodule's center. Determining the center of a nodule is easy in the cases of the nodules with $<3$ mm diameter since that information is already contained in the XML file. For the bigger nodules the mean of the contour pixels is used as an approximation to the real center of mass. The resulting shape of the patches is $(50,50,5)$. It makes sense to take less values in the z-dimension since the resolution of the CT scans is lower in that direction (more information about the scanners can be found in the Appendix~\ref{appendix:scanner}).
 
 
 \end{document}
