@@ -6,7 +6,7 @@
 This chapter presents the result of the training process. The final network performance is evaluated and compared to other papers. The network's extracted features are further analyzed and a way forward is sketched.
 
 \section{Training Results}
-The model performs after training (see Figure~\ref{fig:validation}) with a sensitivity of $83.39\%$ on the test set. This is already a better result than reported by Xu et al.~\cite{xu1997development}, Armato et al.~\cite{armato1999computerized}, Lee et al.~\cite{lee2001automated}, Suzuki et al.~\cite{suzuki2003massive} and Teramoto et al.~\cite{teramoto2013fast}. But there are also papers that report higher values, like Cascio et al.~\cite{cascio2012automatic} with a sensitivity of $97\%$. I still shows that it is possible to achieve promising results with a pure network architecture.
+The model performs after training (see Figure~\ref{fig:validation}) with a sensitivity of $83.39\%$ on the test set. This is already a better result than reported by Xu et al.~\cite{xu1997development}, Armato et al.~\cite{armato1999computerized}, Lee et al.~\cite{lee2001automated}, Suzuki et al.~\cite{suzuki2003massive} and Teramoto et al.~\cite{teramoto2013fast}. But there are also papers that report higher values, like Cascio et al.~\cite{cascio2012automatic} with a sensitivity of $97\%$. It still shows that it is possible to achieve promising results with a pure network architecture.
 
 \begin{figure}
 \begin{center}
@@ -25,7 +25,11 @@ The more interesting part besides the performance measure is the question of how
 
 
 \subsection{Model parameters}
-Many decisions concerning the architecture have been made that are not cogent. The choice of the activation function, the number of filters and layers as well as the batch size and other values have been either chosen in the beginning or found empirically, because they improved the performance of the system. The code structure allows to test easily for the effect of these parameters on the performance. Figure~\ref{fig:other_act} shows the result of a test run with elu activation function~\ref{eq:elu}, which seemed not to yield very different results.
+Many decisions concerning the architecture have been made that are not cogent. The choice of the activation function, the number of filters and layers as well as the batch size and other values have been either chosen in the beginning or found empirically, because they improved the performance of the system. The code structure allows to test easily for the effect of these parameters on the performance. 
+
+\subsubsection{Activation Function}
+
+Figure~\ref{fig:other_act} shows the result of a test run with elu activation function~\ref{eq:elu}, which seemed not to yield very different results.
 
 \begin{equation} \label{eq:elu}
 f(x)= \begin{cases}
@@ -42,9 +46,9 @@ f(x)= \begin{cases}
 \label{fig:other_act}
 \end{figure}
 
+\subsubsection{Batch Size}
+
 A greater impact on the learning has the batch size. The batch size determines how many samples are fed through the network before applying the gradient optimization step. Without changing the other parameters the learning of the network collapses, as can be seen in Figure~\ref{fig:small_batch}. This can have two reasons. Firstly, the learning rate might be inappropriate for this batch size. A high batch size allows for a higher learning rate since the batch stabilizes the prediction~\footnote{This is only roughly correct. The step size can not be increased indefinitely since it also depends on the smoothness of the target function (measured by the Lipschitz constant, which is typically not available for the problems that are meant to be solved by the Neural Networks). It is also desirable for the step size to be bigger in the beginning but decaying in the target area to allow for a finer search.}. So it could be that the learning rate is set too high which would explain the high variance in the performance values during training. Because of this it could also be that the 3 days are simply not enough time to reach a optimum in the problem space.
- 
-It is also possible to measure the effect of structural changes to the network. In section~\ref{ss:features} it is revealed that the filters share very similar features, so the effect of reducing the convolutional layers is invested as well as the impact of the dense layer.
 
 \begin{figure}[H]
 \begin{center}
@@ -54,9 +58,23 @@ It is also possible to measure the effect of structural changes to the network. 
 \label{fig:small_batch}
 \end{figure}
 
+\subsubsection{Structural Changes}\label{sss:struct_changes}
+ 
+It is also possible to measure the effect of structural changes to the network. In section~\ref{ss:features} it is revealed that the filters share very similar features, so the effect of reducing the convolutional layers is invested as well as the impact of the dense layer. In Figure~\ref{fig:structure_change} two runs are depicted that show the difference. Reducing the number of convolutional layers had a positive impact on the overall performance on the network, while reducing the number of neurons in the flat layer did not yield significant improvements.
+
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.45]{one_conv_perf.png}
+\includegraphics[scale=0.45]{half_flat_performance.png}
+\end{center}
+\caption{The bottom network was run with only half of the neurons ($32$) in the fully connected layers, while the upper network used only the fist convolutional layer.}
+\label{fig:structure_change}
+\end{figure}
+
 
 \subsection{Learned Features}\label{ss:features}
-To understand how the network solves the task it makes sense to look at the patterns its layers are sensitive to. The convolutional layers are a suitable target for this kind of inspection, since their activation maps can be directly interpreted by visual inspection, where as the activation of the dense layers does not yield such information straight away. Figure~\ref{fig:mean_activation} shows the mean activation of 4 of the kernels in the first layer after passing through 500 nodule patches. Since the nodules are located in the middle of the input the filters respond to that area. The consecutive layers show similar responses (Figure~\ref{fig:mean_activation_l1} and Figure~\ref{fig:mean_activation_l2}). They also show the typical round morphology. This is an indicator that the number of convolutional layers is set too high, since they do not learn ever more abstract representations but seem to stick with the features that where found in the first layer. Results like this can be used to further prune and optimize the network.
+To understand how the network solves the task it makes sense to look at the patterns its layers are sensitive to. The convolutional layers are a suitable target for this kind of inspection, since their activation maps can be directly interpreted by visual inspection, where as the activation of the dense layers does not yield such information straight away. Figure~\ref{fig:mean_activation} shows the mean activation of 4 of the kernels in the first layer after passing through 500 nodule patches. Since the nodules are located in the middle of the input the filters respond to that area. The consecutive layers show similar responses (Figure~\ref{fig:mean_activation_l1} and Figure~\ref{fig:mean_activation_l2}). They also show the typical round morphology. This is an indicator that the number of convolutional layers is set too high, since they do not learn ever more abstract representations but seem to stick with the features that where found in the first layer. Results like this can be used to further prune and optimize the network as derscribed in Section~\ref{sss:struct_changes}.
 
 
 \begin{figure}[H]
