@@ -7,7 +7,7 @@
 With the building blocks defined in the previous chapter it is possible to construct a complete model for the task of lung nodule detection. This section describes in detail the used model and the learning process that was used to train it.
 
 \section{Network Architecture}
-The model is inspired by the network presented by Huang~\cite{huang2017lung}. It has $3$ 3D convolutional layers and $3$ dense layers. The full architecture can be seen in Figure~\ref{fig:net_struct} and is in the following sections explained from the input to output.
+The model is inspired by the network presented by Huang~\cite{huang2017lung}. It has three 3D convolutional layers and three dense layers. The full architecture can be seen in Figure~\ref{fig:net_struct} and is in the following sections explained from the input to output.
 
 \begin{figure}
 \begin{center}
@@ -30,7 +30,7 @@ The input to the network are the patches that have been cut and stored from the 
 \end{figure}
 
 \subsection{Hidden Layers}
-The convolutional part has $3$ convolutional layers with $40$, $20$ and $20$ kernels each. The kernel size is $(3x3x3)$. This is in accordance with Huang et al.'s~\cite{huang2017lung} implementation. Each of them is followed by a batch normalization layer. Batch normalization is in TensorFlow implemented as described by Ioffe and Szegedy~\cite{ioffe2015batch}. The input of it is fed into a max-pooling layer with a pool size of $(2,2,2)$. The output of the last convolutional layer is flattened and fed to the dense layers. Two dense layers with $64$ neurons each and a ReLU activation function are used in this model. Their output is finally combined in two neurons, forming a 2D output of the network. 
+The convolutional part has three convolutional layers with $40$, $20$ and $20$ kernels each. The kernel size is $(3,3,3)$. This is in accordance with Huang et al.'s~\cite{huang2017lung} implementation. Each of them is followed by a batch normalization layer. Batch normalization is in TensorFlow implemented as described by Ioffe and Szegedy~\cite{ioffe2015batch}. The input of it is fed into a max-pooling layer with a pool size of $(2,2,2)$. The output of the last convolutional layer is flattened and fed to the dense layers. Two dense layers with $64$ neurons each and a ReLU activation function are used in this model. Their output is finally combined in two neurons, forming a 2D output of the network. 
 
 
 \subsection{Output}
